@@ -384,13 +384,15 @@ def _read_message() -> Optional[Dict[str, Any]]:
         line = sys.stdin.buffer.readline()
         if not line:
             return None
-        if line in (b"\r\n", b"\n", b""):
+        # 빈 라인(헤더 종료)을 찾습니다
+        if line.strip() == b"":
             break
-        header_line = line.decode("ascii", errors="ignore")
-        if ":" not in header_line:
+        header_line = line.decode("ascii", errors="ignore").strip()
+        if not header_line or ":" not in header_line:
             continue
         key, value = header_line.split(":", 1)
         headers[key.strip().lower()] = value.strip()
+
     length_str = headers.get("content-length")
     if length_str is None:
         return None
@@ -403,8 +405,8 @@ def _read_message() -> Optional[Dict[str, Any]]:
         return None
     try:
         return json.loads(body.decode("utf-8"))
-    except json.JSONDecodeError:  # pragma: no cover
-        _write_error(None, -32700, "Parse error")
+    except json.JSONDecodeError as e:  # pragma: no cover
+        logging.error(f"JSON 파싱 실패: {e}, 본문: {body[:200]}")
         return None
 
 
@@ -462,9 +464,13 @@ def parse_args(argv: Optional[Iterable[str]] = None) -> argparse.Namespace:
 
 
 def configure_logging(level_text: str) -> None:
+    # MCP는 STDIO를 사용하므로 로그를 파일로 출력합니다
+    log_file = os.environ.get("MATTERMOST_MCP_LOG_FILE", "/tmp/mattermost-s-mcp.log")
     logging.basicConfig(
         level=getattr(logging, level_text.upper(), logging.INFO),
         format="%(asctime)s [%(levelname)s] %(message)s",
+        filename=log_file,
+        filemode="a",
     )
 
 

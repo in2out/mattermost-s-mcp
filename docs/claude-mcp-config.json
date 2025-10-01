@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "mattermost-s-mcp": {
+      "command": "python3",
+      "args": [
+        "/절대/경로/mattermost-s-mcp/public/mattermost-s-mcp.py"
+      ],
+      "env": {
+        "MATTERMOST_MCP_LOG_FILE": "/tmp/mattermost-s-mcp.log",
+        "MATTERMOST_MCP_LOG_LEVEL": "INFO"
+      }
+    }
+  }
+}
