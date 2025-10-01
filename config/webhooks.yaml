@@ -1,0 +1,12 @@
+# mattermost-s-mcp 설정 템플릿
+# 실제 배포 시 이 값을 복사해 웹훅 URL을 채널별로 등록하세요.
+
+version: 1
+# 기본 채널명을 등록된 웹훅 목록 중 하나로 지정합니다.
+default_channel: example-channel
+
+# 채널-웹훅 매핑 목록
+webhooks:
+  - channel: example-channel
+    url: http://slack.axgate.com/hooks/your-webhook-id
+    description: 예시 채널 설명

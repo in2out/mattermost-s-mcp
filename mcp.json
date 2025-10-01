@@ -1,0 +1,26 @@
+{
+  "name": "mattermost-s-mcp",
+  "version": "0.1.0",
+  "description": "Mattermost 웹훅 메시지 전송 MCP",
+  "capabilities": {
+    "tools": [
+      {
+        "name": "mattermost.list_webhooks",
+        "description": "등록된 채널 목록과 기본 채널 확인"
+      },
+      {
+        "name": "mattermost.set_default",
+        "description": "지정한 채널을 기본 웹훅으로 설정"
+      },
+      {
+        "name": "mattermost.send_message",
+        "description": "채널 웹훅을 통해 메시지 전송"
+      }
+    ]
+  },
+  "entrypoint": {
+    "type": "stdio",
+    "command": ["python", "mattermost-s-mcp.py"],
+    "working_directory": "."
+  }
+}
