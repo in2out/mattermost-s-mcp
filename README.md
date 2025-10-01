@@ -96,10 +96,6 @@ Mattermost dev-notice 채널로 "긴급 공지" 메시지 보내줘
 
 ## 문제 해결
 
-자세한 문제 해결 방법은 [INSTALL.md](./INSTALL.md)와 [USAGE.md](./USAGE.md)를 참고하세요.
-
-### 주요 문제
-
 **"server disconnected" 에러**
 - Node.js 경로 확인: `which node` 또는 `where node`
 - 절대 경로 사용 확인

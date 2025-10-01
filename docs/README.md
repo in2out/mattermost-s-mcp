@@ -173,9 +173,3 @@ Mattermost dev-notice 채널로 "긴급 공지" 메시지 보내줘
 - [ ] 첨부파일 전송 기능
 - [ ] 재시도 로직
 - [ ] 타임아웃 설정
-
-## 관련 문서
-
-- [설치 가이드](../INSTALL.md)
-- [사용 방법](../USAGE.md)
-- [메인 README](../README.md)

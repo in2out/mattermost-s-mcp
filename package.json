@@ -8,8 +8,7 @@
     "mattermost-s-mcp": "./index.js"
   },
   "scripts": {
-    "start": "node index.js",
-    "test": "node test.js"
+    "start": "node index.js"
   },
   "keywords": [
     "mcp",
