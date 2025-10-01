@@ -1,0 +1,25 @@
+{
+  "name": "mattermost-s-mcp",
+  "version": "0.1.0",
+  "description": "Mattermost 웹훅 메시지 전송 MCP 서버",
+  "type": "module",
+  "main": "index.js",
+  "bin": {
+    "mattermost-s-mcp": "./index.js"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "keywords": [
+    "mcp",
+    "mattermost",
+    "webhook"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "js-yaml": "^4.1.0"
+  }
+}
