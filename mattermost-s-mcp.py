@@ -514,10 +514,11 @@ def cli_send(registry: WebhookRegistry, text: str, channel: Optional[str], dry_r
 
 def main(argv: Optional[Iterable[str]] = None) -> None:
     args = parse_args(argv)
-    configure_logging(args.log_level)
     config_path = resolve_config_path(args)
 
     if args.command:
+        # CLI 모드: 일반 로그
+        configure_logging(args.log_level)
         registry = WebhookRegistry(config_path)
         if args.command == "list":
             cli_list(registry)
@@ -530,9 +531,19 @@ def main(argv: Optional[Iterable[str]] = None) -> None:
             return
         raise SystemExit(f"알 수 없는 명령입니다: {args.command}")
 
-    registry = WebhookRegistry(config_path)
-    server = MCPServer(registry, DEFAULT_MANIFEST_PATH)
-    server.serve()
+    # MCP 서버 모드: 로그는 나중에 (설정 파일 로딩 후)
+    try:
+        configure_logging(args.log_level)
+        registry = WebhookRegistry(config_path)
+        server = MCPServer(registry, DEFAULT_MANIFEST_PATH)
+        server.serve()
+    except Exception as e:
+        # stderr로 에러 출력 (Claude Desktop이 볼 수 있도록)
+        import traceback
+        sys.stderr.write(f"FATAL ERROR: {e}\n")
+        sys.stderr.write(traceback.format_exc())
+        sys.stderr.flush()
+        raise
 
 
 if __name__ == "__main__":
