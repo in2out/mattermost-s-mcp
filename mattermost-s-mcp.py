@@ -25,7 +25,7 @@ except ImportError as exc:  # pragma: no cover
     raise SystemExit(1) from exc
 
 JSONRPC_VERSION = "2.0"
-PROTOCOL_VERSION = "2025-03-26"
+PROTOCOL_VERSION = "2024-11-05"  # MCP 프로토콜 버전
 SERVER_NAME = "mattermost-s-mcp"
 SERVER_VERSION = "0.1.0"
 
@@ -247,16 +247,17 @@ class MCPServer:
 
     def _handle_initialize(self, params: Any) -> Dict[str, Any]:
         client_info = params.get("clientInfo") if isinstance(params, dict) else {}
+        client_protocol = params.get("protocolVersion") if isinstance(params, dict) else PROTOCOL_VERSION
         logging.info(
-            "클라이언트 연결: %s %s",
+            "클라이언트 연결: %s %s (protocol: %s)",
             client_info.get("name", "unknown"),
             client_info.get("version", "unknown"),
+            client_protocol,
         )
         return {
-            "protocolVersion": PROTOCOL_VERSION,
-            "capabilities": {"tools": {"listChanged": False}},
+            "protocolVersion": client_protocol,  # 클라이언트 버전 그대로 반환
+            "capabilities": {"tools": {}},
             "serverInfo": {"name": SERVER_NAME, "version": SERVER_VERSION},
-            "instructions": self.instructions,
         }
 
     def _handle_tools_list(self, params: Any) -> Dict[str, Any]:
